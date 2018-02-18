@@ -3,12 +3,20 @@ from keras.preprocessing.text import one_hot
 import numpy as np
 import os
 from random import shuffle
+from clusterone import get_data_path
 
 
 class Data(object):
-    DATASET_PATH = "/Users/abhishekpradhan/Workspace/Datasets/aclImdb/"
+    DATASET_PATH = "/Users/abhishekpradhan/Workspace/Datasets/"
 
     def __init__(self, chars, seq_len, batch_size=50):
+        self.data_path = get_data_path(
+            dataset_name="abhishek/aclimdb",
+            local_root=self.DATASET_PATH,
+            local_repo="aclImdb",
+            path=''
+        )
+
         self.chars = chars
         self.seq_len = seq_len
         self.batch_size = batch_size
@@ -18,11 +26,11 @@ class Data(object):
         pos_path = ""
         neg_path = ""
         if train:
-            pos_path = os.path.join(self.DATASET_PATH, "train/pos")
-            neg_path = os.path.join(self.DATASET_PATH, "train/neg")
+            pos_path = os.path.join(self.data_path, "train/pos")
+            neg_path = os.path.join(self.data_path, "train/neg")
         else:
-            pos_path = os.path.join(self.DATASET_PATH, "test/pos")
-            neg_path = os.path.join(self.DATASET_PATH, "test/neg")
+            pos_path = os.path.join(self.data_path, "test/pos")
+            neg_path = os.path.join(self.data_path, "test/neg")
 
         print("Loading Datasets.....")
         pos_lines = self.read_files(pos_path)
@@ -81,8 +89,15 @@ class Data(object):
         for i in range(int(batch_num)):
             start = i * self.batch_size
             end = start + self.batch_size
-            text_batch = encode_matrix[start:end, :, :]
-            label_batch = labels[start:end]
+            text_batch = encode_matrix[start: end, :, :]
+            label_batch = labels[start: end]
             text_batches.append(text_batch)
             label_batches.append(label_batch)
         return text_batches, label_batches
+
+
+# # Data Params
+# chars = "abcdefghijklmnopqrstuvwxyz0123456789-,;.!?:'\"/\\|_@#$%^&*~`+-=<>()[]{}"
+# seq_len = 1014
+# batch_size = 100
+# data = Data(chars, seq_len)
