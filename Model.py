@@ -2,6 +2,7 @@ from keras.layers import Input, Dense, Conv1D, Flatten, MaxPooling1D, LeakyReLU,
 from keras import optimizers, losses, activations
 from keras.models import Model
 from keras.utils.vis_utils import plot_model
+from keras import backend as K
 
 
 class CNNModel(object):
@@ -16,6 +17,12 @@ class CNNModel(object):
         self.dropout = dropout
         self.leaky_alpha = leaky_alpha
         self.model = None
+
+
+        # GPU Config
+        # cfg = K.tf.ConfigProto()
+        # cfg.gpu_options.allow_growth = True
+        # K.set_session(K.tf.Session(config=cfg))
 
     def build_model(self, optimizer='adam', loss='binary_crossentropy'):
         print("Creating CNN Model....")
