@@ -7,15 +7,9 @@ from clusterone import get_data_path
 
 
 class Data(object):
-    DATASET_PATH = "/Users/abhishekpradhan/Workspace/Datasets/"
+    DATASET_PATH = "/Users/abhishekpradhan/Workspace/Datasets/aclImdb/"
 
     def __init__(self, chars, seq_len, batch_size=50):
-        self.data_path = get_data_path(
-            dataset_name="abhishek/aclimdb",
-            local_root=self.DATASET_PATH,
-            local_repo="aclImdb",
-            path=''
-        )
 
         self.chars = chars
         self.seq_len = seq_len
@@ -26,11 +20,11 @@ class Data(object):
         pos_path = ""
         neg_path = ""
         if train:
-            pos_path = os.path.join(self.data_path, "train/pos")
-            neg_path = os.path.join(self.data_path, "train/neg")
+            pos_path = os.path.join(self.DATASET_PATH, "train/pos")
+            neg_path = os.path.join(self.DATASET_PATH, "train/neg")
         else:
-            pos_path = os.path.join(self.data_path, "test/pos")
-            neg_path = os.path.join(self.data_path, "test/neg")
+            pos_path = os.path.join(self.DATASET_PATH, "test/pos")
+            neg_path = os.path.join(self.DATASET_PATH, "test/neg")
 
         print("Loading Datasets.....")
         pos_lines = self.read_files(pos_path)
